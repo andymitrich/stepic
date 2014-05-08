@@ -1,9 +1,12 @@
 def karatsuba(x, y):
 
+    print("Multiply: x(%s), y(%s)" % (x, y))
     x_len = len(x)
     y_len = len(y)
 
     if max(x_len, y_len) <= 2: 
+        
+        print("! Return result(%s, %s): %s" % (x, y, int(x) * int(y)))
         return int(x) * int(y)
     
     x_mid = x_len // 2
@@ -13,17 +16,30 @@ def karatsuba(x, y):
     y_left, y_right = y[:y_mid], y[y_mid:]
 
     p_1 = str(karatsuba(x_left, y_left))
+    print("Result p_1(%s,%s) = %s" % (x_left, y_left, p_1))
     p_2 = str(karatsuba(x_right, y_right))
+    print("Result p_2(%s,%s) = %s" % (x_right, y_right, p_2))
 
 #    print(x_left, x_right)
 #    print(y_left, y_right)
     a_1 = add(x_left, x_right)
+    print("Result adding a_1(%s,%s) = %s" % (x_left, x_right, a_1))
     a_2 = add(y_left, y_right)
+    print("Result adding a_2(%s,%s) = %s" % (y_left, y_right, a_2))
     p_3 = str(karatsuba(a_1, a_2))
+    print("Result p_3(%s,%s) = %s" % (a_1, a_2, p_3))
     s_1 = sub(p_3, p_1)
+    print("Result sub s_1(%s,%s) = %s" % (p_3, p_1, s_1))
+
     s_2 = sub(s_1, p_2)
-    temp = add(add_zeroes(p_1, 2), add_zeroes(s_2, 1))
+    print("Result sub s_2(%s,%s) = %s" % (s_1, p_2, s_2))
+
+    
+    temp = add(add_zeroes(p_1, x_len), add_zeroes(s_2, x_len//2))
     temp = add(temp, p_3)
+
+    
+
     return temp
 
 def add_zeroes(x, count):
@@ -55,7 +71,15 @@ def sub(x, y):
 
         out += str(x_cur-y_cur)
     
-    return out[::-1]
+    n = out[::-1]
+    i = 0
+    while n[i] == '0':
+        i +=1
+
+    if i:
+        return n[i:]
+    else:
+        return n
 
 def add(x, y):
     x_r = x[::-1]
@@ -87,6 +111,7 @@ def add(x, y):
         out += '1'
 
     return out[::-1]
+    
 
 if __name__ == "__main__":
     '''    
@@ -94,9 +119,26 @@ if __name__ == "__main__":
     y = input()
     result = karatsuba(x, y)
     '''
-    x = '23903023903056617'
+    x = '239030239030566179'
     y = '56617956617923930'
+
+    x = '2390'
+    y = '5661'
+
 
     result = karatsuba(x, y)
 
     print(result)
+    print(len(result))
+
+
+    '''
+    result = sub('1243254', '33234')
+    print(result)
+
+    result = sub('1243254', '300334')
+    print(result)
+
+    result = sub('12432540', '9933234')
+    print(result)
+    '''
