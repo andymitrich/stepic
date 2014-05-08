@@ -1,53 +1,48 @@
-from decimal import Decimal
+from decimal import Decimal as d
 
+class Edge(object):
+    def __init__(self, source, target, weight):
+        self.s = source
+        self.t = target
+        self.w = weight
+    
 class Graph(object):
-    def __init__(self, count):
-        self.count = count
-        self.e = {}
+    def __init__(self, n):
         self.has_cycle = False
+        self.v = n
+        self.e = set()
 
-        for v in range(1, self.count + 1):
-            self.e[v] = {}
+    def add_edge(self, e):
+        self.e.add(e)
 
-    def add_edge(self, u, v, w):
-        self.e[u][v] = w
+    def bf(self, s):
+        if self.has_cycle: return
 
-    def bf(self):
-        self.dist = {}
-        self.prev = {}
+        self.dist = [d('Infinity') for i in range(0, self.v + 1)]
+        self.dist[s] = 0
+        
+        for i in range(0, self.v):
+            for edge in self.e:
+                if self.dist[edge.s] > self.dist[edge.t] + edge.w:
+                    self.dist[edge.s] = self.dist[edge.t] + edge.w
 
-        for i in range(1, self.count + 1):
-            self.dist[i] = Decimal('Infinity')
-            self.prev[i] = None
-
-        self.dist[1] = 0
-
-        for i in range(1, self.count + 1):
-            for u in range(1, self.count + 1):
-                for v in self.e[u]:
-                    result = self.relax(u, v)
-                    # print(str(u)+":"+str(v))
-                    
-                    # print("Cycle " + str(i))
-                    # print(result)
-                    if i == self.count and result:
-                        self.has_cycle = True
+        for i in range(1):
+            for edge in self.e:
+                if self.dist[edge.s] > self.dist[edge.t] + edge.w:
+                    self.has_cycle = True
+                    return
 
 
-    def relax(self, u, v):
-        if self.dist[v] > self.dist[u] + self.e[u][v]:
-            self.dist[v] = self.dist[u] + self.e[u][v]
-            self.prev[v] = u
-            return True
-        return False
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     n, m = map(int, input().split())
     g = Graph(n)
 
     for i in range(0, m):
-        u, v, w = map(int, input().split())
-        g.add_edge(u, v, w)
+        s, t, w = map(int, input().split())
+        g.add_edge(Edge(s, t, w))
 
-    g.bf()
+    for i in range(1, g.v):
+        if g.has_cycle: break
+        g.bf(i)
+
     print(g.has_cycle)
