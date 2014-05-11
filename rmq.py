@@ -14,20 +14,39 @@ class RMQ(object):
       
       while n != nn:
         numbers.append(d('Infinity'))
+        n = len(numbers)
+        
+    r = numbers[::-1]
+    nn = 2*nn-1
+    
+    self.size = len(numbers)
+    
+    i = 0
+    while i < nn-1:
+      r.append(min(r[i], r[i+1]))
+      i+=2
       
-    self.size = len()  
+    r.append(d('Infinity'))
+    self.e = r[::-1]
+
     
   def build(self):
     idx = self.size - 1
-    while idx > 1:
-      self.e[idx//2] = min(self.e[idx], self.e[idx+1])
-      idx -= 2
+    
+      
+  def recover(self, idx):
+    pass
   
   def min(self, left, right):
     pass
   
   def set(self, origin, value):
-    pass
+    for i in range(self.size//2, self.size-1):
+      print()
+      if self.e[i] == origin:
+        self.e[i] = value
+        self.recover(i)
+    print(self.e)
   
     
 if __name__ == '__main__':
