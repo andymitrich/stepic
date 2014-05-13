@@ -1,13 +1,13 @@
 def karatsuba(x, y):
 
-    print("Multiply: x(%s), y(%s)" % (x, y))
+    # print("Multiply: x(%s), y(%s)" % (x, y))
     x_len = len(x)
     y_len = len(y)
 
     if max(x_len, y_len) <= 2: 
         
-        print("! Return result(%s, %s): %s" % (x, y, int(x) * int(y)))
-        return int(x) * int(y)
+        # print("! Return result(%s, %s): %s" % (x, y, int(x) * int(y)))
+        return str(int(x) * int(y))
     
     x_mid = x_len // 2
     x_left, x_right = x[:x_mid], x[x_mid:]
@@ -34,9 +34,16 @@ def karatsuba(x, y):
     s_2 = sub(s_1, p_2)
     print("Result sub s_2(%s,%s) = %s" % (s_1, p_2, s_2))
 
+    d = max(len(x_right),len(y_right))
+
+    temp = add(add_zeroes(p_1, d**2), add_zeroes(s_2, d))
+    print("Temp result = %s" % temp)
     
-    temp = add(add_zeroes(p_1, x_len), add_zeroes(s_2, x_len//2))
-    temp = add(temp, p_3)
+    temp = add(temp, p_2)
+
+    print("Temp result = %s" % temp)
+
+    print("Before return %s" % temp)
 
     
 
@@ -122,15 +129,16 @@ if __name__ == "__main__":
     x = '239030239030566179'
     y = '56617956617923930'
 
-    x = '2390'
-    y = '5661'
+
+    x = '920432'
+    y = '631212'
 
 
     result = karatsuba(x, y)
 
     print(result)
     print(len(result))
-
+    
 
     '''
     result = sub('1243254', '33234')
