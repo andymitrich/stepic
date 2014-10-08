@@ -1,4 +1,4 @@
-stepic
+Algorithms from Stepic.org
 ======
 
-Exercises from Stepic
+Some exercises from MOOC platform Stepic.org. Course was about design and analysis of algorithms.
